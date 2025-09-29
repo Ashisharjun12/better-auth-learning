@@ -8,6 +8,9 @@ export const authClient = createAuthClient({
   }
 });
 
+// Add debugging
+console.log("Auth client baseURL:", config.API_BASE_URL);
+
 // Export specific methods for easier use
 export const { 
   signIn, 

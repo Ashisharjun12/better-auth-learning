@@ -26,6 +26,24 @@ app.get("/health", (req, res) => {
   res.status(200).send("OK");
 });
 
+// Test endpoint to check auth status
+app.get("/api/test-auth", async (req, res) => {
+  try {
+    const session = await auth.api.getSession(req, res);
+    res.json({ 
+      session: session,
+      hasSession: !!session,
+      userRole: session?.user?.role || 'no-role'
+    });
+  } catch (error) {
+    res.json({ 
+      error: error.message,
+      session: null,
+      hasSession: false
+    });
+  }
+});
+
 // Mount Better Auth handler
 app.all("/api/auth/*", toNodeHandler(auth));
 

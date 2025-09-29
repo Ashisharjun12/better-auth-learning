@@ -1,3 +1,5 @@
+CREATE TYPE "role" AS ENUM('admin', 'user');
+--> statement-breakpoint
 CREATE TABLE "account" (
 	"id" text PRIMARY KEY NOT NULL,
 	"account_id" text NOT NULL,
@@ -29,6 +31,7 @@ CREATE TABLE "session" (
 CREATE TABLE "user" (
 	"id" text PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
+	"role" "role" DEFAULT 'user' NOT NULL,
 	"email" text NOT NULL,
 	"email_verified" boolean DEFAULT false NOT NULL,
 	"image" text,
@@ -44,23 +47,6 @@ CREATE TABLE "verification" (
 	"expires_at" timestamp NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE "users" (
-	"id" uuid PRIMARY KEY NOT NULL,
-	"email" text NOT NULL,
-	"name" text NOT NULL,
-	"avatar" text,
-	"password_hash" text,
-	"google_id" text,
-	"github_id" text,
-	"provider" text,
-	"email_verified" boolean DEFAULT false,
-	"created_at" timestamp DEFAULT now(),
-	"updated_at" timestamp DEFAULT now(),
-	CONSTRAINT "users_email_unique" UNIQUE("email"),
-	CONSTRAINT "users_google_id_unique" UNIQUE("google_id"),
-	CONSTRAINT "users_github_id_unique" UNIQUE("github_id")
 );
 --> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint

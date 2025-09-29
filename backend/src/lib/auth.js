@@ -31,6 +31,23 @@ export const auth = betterAuth({
             clientSecret: _config.TWITTER_CLIENT_SECRET,
         } 
     },
+    session: {
+        updateAge: 24 * 60 * 60, // 24 hours
+        expiresIn: 60 * 60 * 24 * 7, // 7 days
+        cookieCache: {
+            enabled: true,
+            maxAge: 60 * 5, // 5 minutes
+        },
+    },
+    user: {
+        additionalFields: {
+            role: {
+                type: "string",
+                required: false,
+                defaultValue: "user"
+            }
+        }
+    },
     secret: process.env.BETTER_AUTH_SECRET,
     baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
     trustedOrigins: ["http://localhost:5173"],
